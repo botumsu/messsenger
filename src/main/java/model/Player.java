@@ -3,7 +3,11 @@ package model;
 import util.Event;
 import util.EventUpdater;
 
-public class Player implements EventUpdater {
+import java.io.Serializable;
+
+public class Player implements EventUpdater, Serializable {
+
+    private static final long serialVersionUID = 6231265419588843692L;
 
     Messenger messenger = new MessengerProcess();
 
