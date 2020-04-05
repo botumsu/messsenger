@@ -10,19 +10,21 @@ import java.util.concurrent.Executor;
 public class Subscriber {
     private MessageListener messageListener;
     private Executor executor;
+    private EventChannel eventChannel;
 
     ThreadLocal<List<Event>> receivedEvents = ThreadLocal.withInitial(ArrayList::new);
 
     public Subscriber(MessageListener messageListener, EventChannel eventChannel) {
         this.messageListener = messageListener;
+        this.eventChannel = eventChannel;
         this.executor = eventChannel.getExecutorService();
     }
 
-    public void subscribe(EventChannel eventChannel) {
+    public void register() {
         eventChannel.addSubscriber(this);
     }
 
-    public void unsubscribe(EventChannel eventChannel) {
+    public void unregister() {
         eventChannel.removeSubscriber(this);
     }
 

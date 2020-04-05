@@ -42,7 +42,7 @@ public class MessengerProcess implements Messenger {
                     .filter(publisher -> publisher.getMessageListener().equals(sender))
                     .findFirst();
             if (optionalPublisher.isPresent()) {
-                optionalPublisher.get().publish(event, currentChannel);
+                optionalPublisher.get().publish(event);
             }
             //currentChannel.publish(event, messageListener -> messageListener.equals(sender));
         }

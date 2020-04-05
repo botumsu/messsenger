@@ -5,20 +5,22 @@ import util.MessageListener;
 
 public class Publisher {
     private MessageListener messageListener;
+    private EventChannel eventChannel;
 
-    public Publisher(MessageListener messageListener) {
+    public Publisher(MessageListener messageListener, EventChannel eventChannel) {
         this.messageListener = messageListener;
+        this.eventChannel = eventChannel;
     }
 
-    public void publish(Event event, EventChannel eventChannel) {
+    public void publish(Event event) {
         eventChannel.publish(event, messageListener -> messageListener.equals(this));
     }
 
-    public void addPublisher(EventChannel eventChannel) {
+    public void register() {
         eventChannel.addPublisher(this);
     }
 
-    public void removePublisher(EventChannel eventChannel) {
+    public void unregister() {
         eventChannel.removePublisher(this);
     }
 

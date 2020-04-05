@@ -13,13 +13,13 @@ public class MessengerApplication {
 
         Subscriber subsMahmut = new Subscriber(player, staticEvent);
         Subscriber subsMehmet = new Subscriber(player2, staticEvent);
-        subsMahmut.subscribe(staticEvent);
-        subsMehmet.subscribe(staticEvent);
+        subsMahmut.register();
+        subsMehmet.register();
 
-        Publisher pubMahmut = new Publisher(player);
-        Publisher pubMehmet = new Publisher(player);
-        pubMahmut.addPublisher(staticEvent);
-        pubMehmet.addPublisher(staticEvent);
+        Publisher pubMahmut = new Publisher(player, staticEvent);
+        Publisher pubMehmet = new Publisher(player, staticEvent);
+        pubMahmut.register();
+        pubMehmet.register();
 
         Event event = new Event("selam");
 
