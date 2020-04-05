@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public class Subscriber {
-    private Executor executor;
     private MessageListener messageListener;
+    private Executor executor;
 
     ThreadLocal<List<Event>> receivedEvents = ThreadLocal.withInitial(ArrayList::new);
 

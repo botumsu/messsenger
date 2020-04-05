@@ -1,16 +1,28 @@
 package component;
 
 import util.Event;
+import util.MessageListener;
 
 public class Publisher {
+    private MessageListener messageListener;
 
-    private Subscriber subscriber;
-
-    public Publisher(Subscriber subscriber) {
-        this.subscriber = subscriber;
+    public Publisher(MessageListener messageListener) {
+        this.messageListener = messageListener;
     }
 
     public void publish(Event event, EventChannel eventChannel) {
-        eventChannel.publish(event, messageListener -> messageListener.equals(subscriber.getMessageListener()));
+        eventChannel.publish(event, messageListener -> messageListener.equals(this));
+    }
+
+    public void addPublisher(EventChannel eventChannel) {
+        eventChannel.addPublisher(this);
+    }
+
+    public void removePublisher(EventChannel eventChannel) {
+        eventChannel.removePublisher(this);
+    }
+
+    public MessageListener getMessageListener() {
+        return messageListener;
     }
 }

@@ -10,8 +10,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class EventChannel extends Dispatcher {
+
     private ExecutorService executorService;
     CopyOnWriteArraySet<Subscriber> subscribers = new CopyOnWriteArraySet<>();
+    CopyOnWriteArraySet<Publisher> publishers = new CopyOnWriteArraySet<>();
 
     public EventChannel(ExecutorService executorService) {
         this.executorService = executorService;
@@ -23,6 +25,14 @@ public class EventChannel extends Dispatcher {
 
     public void removeSubscriber(Subscriber subscriber) {
         subscribers.remove(subscriber);
+    }
+
+    public void addPublisher(Publisher publisher) {
+        publishers.add(publisher);
+    }
+
+    public void removePublisher(Publisher publisher) {
+        publishers.remove(publisher);
     }
 
     public void publish(Event event, Predicate<MessageListener> excludedPlayer) {
@@ -39,5 +49,9 @@ public class EventChannel extends Dispatcher {
 
     public CopyOnWriteArraySet<Subscriber> getSubscribers() {
         return subscribers;
+    }
+
+    public CopyOnWriteArraySet<Publisher> getPublishers() {
+        return publishers;
     }
 }

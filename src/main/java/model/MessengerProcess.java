@@ -1,13 +1,16 @@
 package model;
 
 import component.EventChannel;
+import component.Publisher;
 import util.Event;
-import util.MessageListener;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MessengerProcess implements Messenger, MessageListener {
+import static util.EventProvider.staticEvent;
+
+public class MessengerProcess implements Messenger {
 
     private AtomicInteger readMessageCounter = new AtomicInteger(0);
     private AtomicInteger sendMessageCounter = new AtomicInteger(0);
@@ -17,7 +20,7 @@ public class MessengerProcess implements Messenger, MessageListener {
     @Override
     public void sendEvent(Event event, Player sender) {
         sendMessageCounter.incrementAndGet();
-        System.out.println("Sent message :" + event.getMessage() + "(count: " + sendMessageCounter.get() + ")");
+        System.out.println("Sent message :" + event.getMessage() + "(count: " + sendMessageCounter.get() + " by player:" + sender.getName() + ")");
         send(event, sender);
     }
 
@@ -29,12 +32,19 @@ public class MessengerProcess implements Messenger, MessageListener {
     }
 
     private void send(Event event, Player sender) {
-        EventChannel currentChannel = eventChannel.get();
+        EventChannel currentChannel = staticEvent;
         if (readMessageCounter.get() >= 10 && sendMessageCounter.get() >= 10) {
 
         }
+
         if (currentChannel != null) {
-            currentChannel.publish(event, messageListener -> messageListener.equals(sender));
+            Optional<Publisher> optionalPublisher = currentChannel.getPublishers().stream()
+                    .filter(publisher -> publisher.getMessageListener().equals(sender))
+                    .findFirst();
+            if (optionalPublisher.isPresent()) {
+                optionalPublisher.get().publish(event, currentChannel);
+            }
+            //currentChannel.publish(event, messageListener -> messageListener.equals(sender));
         }
     }
 
@@ -44,9 +54,4 @@ public class MessengerProcess implements Messenger, MessageListener {
         }
     }
 
-    @Override
-    public void onMessage(Event event) {
-        System.out.println("onMessage :" + event.getMessage());
-        readMessageCounter.incrementAndGet();
-    }
 }
