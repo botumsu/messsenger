@@ -1,14 +1,14 @@
 package component;
 
 import util.Event;
-import util.MessageListener;
+import util.EventUpdater;
 
 public class Publisher {
-    private MessageListener messageListener;
+    private EventUpdater eventUpdater;
     private EventChannel eventChannel;
 
-    public Publisher(MessageListener messageListener, EventChannel eventChannel) {
-        this.messageListener = messageListener;
+    public Publisher(EventUpdater eventUpdater, EventChannel eventChannel) {
+        this.eventUpdater = eventUpdater;
         this.eventChannel = eventChannel;
     }
 
@@ -24,7 +24,7 @@ public class Publisher {
         eventChannel.removePublisher(this);
     }
 
-    public MessageListener getMessageListener() {
-        return messageListener;
+    public EventUpdater getEventUpdater() {
+        return eventUpdater;
     }
 }

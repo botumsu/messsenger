@@ -35,7 +35,7 @@ public class EventChannel extends Dispatcher {
 
     public void publish(Event event, Publisher publisher) {
         Set<Subscriber> toSubscribers = subscribers.stream()
-                .filter(subscriber -> !subscriber.getMessageListener().equals(publisher.getMessageListener()))
+                .filter(subscriber -> !subscriber.getEventUpdater().equals(publisher.getEventUpdater()))
                 .collect(Collectors.toSet());
         dispatch(event, toSubscribers);
     }

@@ -3,7 +3,7 @@ import component.Subscriber;
 import model.Player;
 import util.Event;
 
-import static util.EventProvider.staticEvent;
+import static util.EventProvider.eventChannel;
 
 public class MessengerApplication {
 
@@ -11,13 +11,13 @@ public class MessengerApplication {
         Player player = new Player("mahmut");
         Player player2 = new Player("mehmet");
 
-        Subscriber subsMahmut = new Subscriber(player, staticEvent);
-        Subscriber subsMehmet = new Subscriber(player2, staticEvent);
+        Subscriber subsMahmut = new Subscriber(player, eventChannel);
+        Subscriber subsMehmet = new Subscriber(player2, eventChannel);
         subsMahmut.register();
         subsMehmet.register();
 
-        Publisher pubMahmut = new Publisher(player, staticEvent);
-        Publisher pubMehmet = new Publisher(player, staticEvent);
+        Publisher pubMahmut = new Publisher(player, eventChannel);
+        Publisher pubMehmet = new Publisher(player, eventChannel);
         pubMahmut.register();
         pubMehmet.register();
 

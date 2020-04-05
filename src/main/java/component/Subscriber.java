@@ -1,21 +1,21 @@
 package component;
 
 import util.Event;
-import util.MessageListener;
+import util.EventUpdater;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
 public class Subscriber {
-    private MessageListener messageListener;
+    private EventUpdater eventUpdater;
     private Executor executor;
     private EventChannel eventChannel;
 
     ThreadLocal<List<Event>> receivedEvents = ThreadLocal.withInitial(ArrayList::new);
 
-    public Subscriber(MessageListener messageListener, EventChannel eventChannel) {
-        this.messageListener = messageListener;
+    public Subscriber(EventUpdater eventUpdater, EventChannel eventChannel) {
+        this.eventUpdater = eventUpdater;
         this.eventChannel = eventChannel;
         this.executor = eventChannel.getExecutorService();
     }
@@ -38,7 +38,7 @@ public class Subscriber {
             executor.execute(() -> {
                 try {
                     receivedEvents.get().add(event);
-                    receivedEvents.get().forEach(eachEvent -> messageListener.onMessage(eachEvent));
+                    receivedEvents.get().forEach(eachEvent -> eventUpdater.onEvent(eachEvent));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -50,8 +50,8 @@ public class Subscriber {
         return executor;
     }
 
-    public MessageListener getMessageListener() {
-        return messageListener;
+    public EventUpdater getEventUpdater() {
+        return eventUpdater;
     }
 
     public ThreadLocal<List<Event>> getReceivedEvents() {

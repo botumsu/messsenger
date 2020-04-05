@@ -1,9 +1,9 @@
 package model;
 
 import util.Event;
-import util.MessageListener;
+import util.EventUpdater;
 
-public class Player implements MessageListener {
+public class Player implements EventUpdater {
 
     Messenger messenger = new MessengerProcess();
 
@@ -26,7 +26,7 @@ public class Player implements MessageListener {
     }
 
     @Override
-    public void onMessage(Event event) {
+    public void onEvent(Event event) {
         receiveEvent(event);
     }
 }
