@@ -41,7 +41,6 @@ public class MessengerProcess implements Messenger {
                 eventChannel.getPublishers().remove(currentPublisher);
             }
         }
-
     }
 
     private void receive(Player receiver) {
@@ -55,6 +54,4 @@ public class MessengerProcess implements Messenger {
             }
         }
     }
-
-
 }

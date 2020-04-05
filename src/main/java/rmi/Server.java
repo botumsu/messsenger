@@ -5,16 +5,14 @@ import util.Event;
 
 import java.rmi.RemoteException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Server implements ChatServer {
 
     private Map<String, ChatClient> userNameClient = new LinkedHashMap<>();
 
     @Override
-    public List<ChatClient> register(ChatClient chatClient) throws RemoteException {
+    public ChatClient register(ChatClient chatClient) throws RemoteException {
         if (!userNameClient.containsKey(chatClient.getName())) {
             userNameClient.put(chatClient.getName(), chatClient);
 
@@ -27,7 +25,7 @@ public class Server implements ChatServer {
                 }
             });
         }
-        return userNameClient.values().stream().collect(Collectors.toList());
+        return userNameClient.get(chatClient.getName());
     }
 
     @Override

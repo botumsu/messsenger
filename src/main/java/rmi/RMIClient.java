@@ -9,7 +9,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 
 public class RMIClient {
 
@@ -33,7 +32,7 @@ public class RMIClient {
 
     private static void registerClient(ChatServer chatServer, Client client) throws RemoteException {
         clientStub = (ChatClient) UnicastRemoteObject.exportObject(client, 0);
-        List<ChatClient> currentUsers = chatServer.register(clientStub);
-        client.addPlayers(currentUsers);
+        ChatClient addedClient = chatServer.register(clientStub);
+        client.addPlayer(addedClient);
     }
 }

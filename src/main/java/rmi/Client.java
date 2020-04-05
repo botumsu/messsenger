@@ -6,7 +6,6 @@ import model.Player;
 
 import java.rmi.RemoteException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,14 +51,12 @@ public class Client implements ChatClient {
         return namePlayers;
     }
 
-    public void addPlayers(List<ChatClient> chatClients) {
-        chatClients.forEach(chatClient -> {
-            try {
-                namePlayers.put(chatClient.getName(), new Player(chatClient.getName()));
-            } catch (RemoteException e) {
-                System.out.println("Clients couldn't be added into players");
-            }
-        });
+    public void addPlayer(ChatClient chatClient) {
+        try {
+            namePlayers.put(chatClient.getName(), new Player(chatClient.getName()));
+        } catch (RemoteException e) {
+            System.out.println("Clients couldn't be added into players");
+        }
     }
 
     @Override
