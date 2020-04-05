@@ -1,12 +1,10 @@
 package component;
 
 import util.Event;
-import util.MessageListener;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class EventChannel extends Dispatcher {
@@ -35,10 +33,9 @@ public class EventChannel extends Dispatcher {
         publishers.remove(publisher);
     }
 
-    public void publish(Event event, Predicate<MessageListener> excludedPlayer) {
-
+    public void publish(Event event, Publisher publisher) {
         Set<Subscriber> toSubscribers = subscribers.stream()
-                .filter(subscriber -> excludedPlayer.negate().test(subscriber.getMessageListener()))
+                .filter(subscriber -> !subscriber.getMessageListener().equals(publisher.getMessageListener()))
                 .collect(Collectors.toSet());
         dispatch(event, toSubscribers);
     }

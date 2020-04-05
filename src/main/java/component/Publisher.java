@@ -13,7 +13,7 @@ public class Publisher {
     }
 
     public void publish(Event event) {
-        eventChannel.publish(event, messageListener -> messageListener.equals(this));
+        eventChannel.publish(event, this);
     }
 
     public void register() {

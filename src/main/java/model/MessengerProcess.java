@@ -44,7 +44,6 @@ public class MessengerProcess implements Messenger {
             if (optionalPublisher.isPresent()) {
                 optionalPublisher.get().publish(event);
             }
-            //currentChannel.publish(event, messageListener -> messageListener.equals(sender));
         }
     }
 
