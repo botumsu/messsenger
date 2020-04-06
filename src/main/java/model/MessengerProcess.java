@@ -19,14 +19,14 @@ public class MessengerProcess implements Messenger {
     @Override
     public void sendEvent(Event event, Player sender) {
         sendMessageCounter.incrementAndGet();
-        System.out.println("Sent message :" + event.getMessage() + "(count: " + sendMessageCounter.get() + " by player:" + sender.getName() + ")");
+        System.out.println("Sent message :" + event.getMessage() + " (count: " + sendMessageCounter.get() + " by player:" + sender.getName() + ")");
         send(event, sender);
     }
 
     @Override
     public void receiveEvent(Event event, Player receiver) {
         readMessageCounter.incrementAndGet();
-        System.out.println("Read message :" + event.getMessage() + "(count: " + readMessageCounter.get() + " by player:" + receiver.getName() + ")");
+        System.out.println("Read message :" + event.getMessage() + " (count: " + readMessageCounter.get() + " by player:" + receiver.getName() + ")");
         receive(receiver);
     }
 
