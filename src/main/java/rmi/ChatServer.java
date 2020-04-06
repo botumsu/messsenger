@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChatServer extends Remote {
 
-    ChatClient register(ChatClient chatClient) throws RemoteException;
+    void register(ChatClient chatClient) throws RemoteException;
 
     void unregister(ChatClient chatClient) throws RemoteException;
 

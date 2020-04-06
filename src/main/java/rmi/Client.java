@@ -7,25 +7,26 @@ import model.Player;
 import util.EventProvider;
 
 import java.rmi.RemoteException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class Client implements ChatClient {
 
-    private String userName;
-    private Map<String, Player> namePlayers = new LinkedHashMap<>();
+    private Player player;
 
     public Client(Player player) {
-        this.userName = player.getName();
+        this.player = player;
+    }
+
+    @Override
+    public Player getPlayer() throws RemoteException {
+        return player;
     }
 
     @Override
     public void notifyLogin(Player player) throws RemoteException {
         EventChannel eventChannel = EventProvider.getInstance();
-        namePlayers.put(player.getName(), player);
-        eventChannel.getSubscribers().add(new Subscriber(player, eventChannel));
-        eventChannel.getPublishers().add(new Publisher(player, eventChannel));
+        eventChannel.addSubscriber(new Subscriber(player, eventChannel));
+        eventChannel.addPublisher(new Publisher(player, eventChannel));
     }
 
     @Override
@@ -43,26 +44,5 @@ public class Client implements ChatClient {
         if (optionalPublisher.isPresent()) {
             eventChannel.getPublishers().remove(optionalPublisher.get());
         }
-        if (namePlayers.containsKey(player.getName())) {
-            namePlayers.remove(player.getName());
-        }
-    }
-
-    @Override
-    public Map<String, Player> getPlayers() throws RemoteException {
-        return namePlayers;
-    }
-
-    public void addPlayer(ChatClient chatClient) {
-        try {
-            namePlayers.put(chatClient.getName(), new Player(chatClient.getName()));
-        } catch (RemoteException e) {
-            System.out.println("Clients couldn't be added into players");
-        }
-    }
-
-    @Override
-    public String getName() throws RemoteException {
-        return userName;
     }
 }

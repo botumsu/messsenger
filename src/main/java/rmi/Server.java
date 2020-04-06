@@ -12,24 +12,23 @@ public class Server implements ChatServer {
     private Map<String, ChatClient> userNameClient = new LinkedHashMap<>();
 
     @Override
-    public ChatClient register(ChatClient chatClient) throws RemoteException {
-        if (!userNameClient.containsKey(chatClient.getName())) {
-            userNameClient.put(chatClient.getName(), chatClient);
+    public void register(ChatClient chatClient) throws RemoteException {
+        if (!userNameClient.containsKey(chatClient.getPlayer().getName())) {
+            userNameClient.put(chatClient.getPlayer().getName(), chatClient);
             try {
-                chatClient.notifyLogin(new Player(chatClient.getName()));
+                chatClient.notifyLogin(new Player(chatClient.getPlayer().getName()));
             } catch (RemoteException e) {
                 System.out.println("Couldn't register the client");
             }
         }
-        return userNameClient.get(chatClient.getName());
     }
 
     @Override
     public void unregister(ChatClient chatClient) throws RemoteException {
-        if (userNameClient.containsKey(chatClient.getName())) {
+        if (userNameClient.containsKey(chatClient.getPlayer().getName())) {
             userNameClient.forEach((name, client) -> {
                 try {
-                    Player player = client.getPlayers().get(client.getName());
+                    Player player = client.getPlayer();
                     if (player != null) {
                         client.notifyLogout(player);
                     }
@@ -37,14 +36,12 @@ public class Server implements ChatServer {
                     System.out.println("Couldn't unregister the client");
                 }
             });
-            userNameClient.remove(chatClient.getName());
+            userNameClient.remove(chatClient.getPlayer().getName());
         }
     }
 
     @Override
     public void sendEvent(ChatClient fromPlayer, Event event) throws RemoteException {
-        fromPlayer.getPlayers().forEach((s, player) -> {
-            player.sendEvent(event);
-        });
+        fromPlayer.getPlayer().sendEvent(event);
     }
 }

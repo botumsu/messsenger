@@ -20,15 +20,15 @@ public class MessengerProcess implements Messenger, Serializable {
     @Override
     public void sendEvent(Event event, Player sender) {
         sendMessageCounter.incrementAndGet();
-        System.out.println("Sent message :" + event.getMessage() + " (count: " + sendMessageCounter.get() + " by player:" + sender.getName() + ")");
         send(event, sender);
     }
 
     @Override
     public void receiveEvent(Event event, Player receiver) {
         readMessageCounter.incrementAndGet();
-        System.out.println("Read message :" + event.getMessage() + " (count: " + readMessageCounter.get() + " by player:" + receiver.getName() + ")");
+        System.out.println(receiver.getName() + " received message :" + event.getMessage() + ", receiving count: " + readMessageCounter.get());
         receive(receiver);
+        sendEvent(event, receiver);
     }
 
     private void send(Event event, Player sender) {
@@ -39,6 +39,7 @@ public class MessengerProcess implements Messenger, Serializable {
         if (optionalPublisher.isPresent()) {
             Publisher currentPublisher = optionalPublisher.get();
             currentPublisher.publish(event);
+            System.out.println(sender.getName() + " sent message :" + event.getMessage() + ", sending count: " + sendMessageCounter.get());
             if (sendMessageCounter.get() >= 10) {
                 eventChannel.getPublishers().remove(currentPublisher);
             }

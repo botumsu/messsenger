@@ -2,6 +2,7 @@ package rmi;
 
 import service.Chatting;
 import service.Initializer;
+import util.Event;
 
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
@@ -24,10 +25,12 @@ public class RMIClient {
         }
         ChatServer chatServer = (ChatServer) registry.lookup("RMI_SERVER");
 
-        Client client1 =initializer.initializePlayer(chatServer);
-        Client client2 =initializer.initializePlayer(chatServer);
-        Client initiator = initializer.initializeInitiator(client1, client2);
-        chatting.run(chatServer, initiator, initiator.equals(client1) ? client2 : client1);
+        Client client1 = initializer.initializePlayer(chatServer, args[0]);
+        Client client2 = initializer.initializePlayer(chatServer, args[1]);
+        Client initiator = client1.getPlayer().getName().equals(args[2]) ? client1 : client2;
+        Event event = new Event(args[3]);
+
+        chatting.run(chatServer, initiator, event);
     }
 
 }

@@ -7,19 +7,13 @@ import util.Event;
 import util.EventProvider;
 
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 public class Chatting {
-    public void run(ChatServer chatServer, Client initiator, Client otherClient) throws RemoteException {
-        Client nextPlayer = initiator;
+    public void run(ChatServer chatServer, Client initiator, Event event) throws RemoteException {
         System.out.println("Chat is Starting...");
         EventChannel eventChannel = EventProvider.getInstance();
+        chatServer.sendEvent(initiator, event);
         while (!eventChannel.getPublishers().isEmpty()) {
-            System.out.println("Enter Message for " + nextPlayer.getName());
-            Scanner scanner = new Scanner(System.in);
-            String message = scanner.nextLine();
-            chatServer.sendEvent(nextPlayer, new Event(message));
-            nextPlayer = switchPlayer(nextPlayer, initiator, otherClient);
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -27,9 +21,5 @@ public class Chatting {
             }
         }
         System.exit(0);
-    }
-
-    private static Client switchPlayer(Client currentClient, Client client1, Client client2) {
-        return currentClient.equals(client1) ? client2 : client1;
     }
 }
