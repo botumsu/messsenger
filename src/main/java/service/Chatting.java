@@ -1,16 +1,17 @@
 package service;
 
+import component.EventChannel;
 import model.Player;
 import util.Event;
+import util.EventProvider;
 
 import java.util.Scanner;
-
-import static util.EventProvider.eventChannel;
 
 public class Chatting {
     public void run(Player initiator, Player otherPlayer) {
         Player nextPlayer = initiator;
         System.out.println("Chat is Starting...");
+        EventChannel eventChannel = EventProvider.getInstance();
         while (!eventChannel.getPublishers().isEmpty()) {
             System.out.println("Enter Message for " + nextPlayer.getName());
             Scanner scanner = new Scanner(System.in);

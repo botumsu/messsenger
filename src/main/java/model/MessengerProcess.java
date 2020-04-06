@@ -4,12 +4,10 @@ import component.EventChannel;
 import component.Publisher;
 import component.Subscriber;
 import util.Event;
+import util.EventProvider;
 
-import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static util.EventProvider.eventChannel;
 
 public class MessengerProcess implements Messenger {
 
@@ -31,8 +29,8 @@ public class MessengerProcess implements Messenger {
     }
 
     private void send(Event event, Player sender) {
-        EventChannel currentChannel = eventChannel;
-        Optional<Publisher> optionalPublisher = currentChannel.getPublishers().stream()
+        EventChannel eventChannel = EventProvider.getInstance();
+        Optional<Publisher> optionalPublisher = eventChannel.getPublishers().stream()
                 .filter(publisher -> publisher.getEventUpdater().equals(sender))
                 .findFirst();
         if (optionalPublisher.isPresent()) {
@@ -45,9 +43,9 @@ public class MessengerProcess implements Messenger {
     }
 
     private void receive(Player receiver) {
-        EventChannel currentChannel = eventChannel;
+        EventChannel eventChannel = EventProvider.getInstance();
         if (readMessageCounter.get() >= 10) {
-            Optional<Subscriber> optionalSubscriber = currentChannel.getSubscribers().stream()
+            Optional<Subscriber> optionalSubscriber = eventChannel.getSubscribers().stream()
                     .filter(subscriber -> subscriber.getEventUpdater().equals(receiver))
                     .findFirst();
             if (optionalSubscriber.isPresent()) {
