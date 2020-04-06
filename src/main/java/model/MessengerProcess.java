@@ -5,12 +5,15 @@ import component.Publisher;
 import component.Subscriber;
 import util.Event;
 
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static util.EventProvider.eventChannel;
 
-public class MessengerProcess implements Messenger {
+public class MessengerProcess implements Messenger, Serializable {
+
+    private static final long serialVersionUID = 6257373018834408757L;
 
     private AtomicInteger readMessageCounter = new AtomicInteger(0);
     private AtomicInteger sendMessageCounter = new AtomicInteger(0);

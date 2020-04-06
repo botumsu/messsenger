@@ -1,6 +1,7 @@
 package rmi;
 
-import model.Player;
+import service.Chatting;
+import service.Initializer;
 
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
@@ -8,12 +9,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient {
 
-    private static ChatServer chatServer;
-    private static ChatClient clientStub;
+    private static Initializer initializer = new Initializer();
+    private static Chatting chatting = new Chatting();
 
     public static void main(String[] args) throws IOException, RemoteException, AlreadyBoundException, NotBoundException {
 
@@ -22,17 +22,12 @@ public class RMIClient {
             System.err.println("RMI Server is not running");
             return;
         }
-        chatServer = (ChatServer) registry.lookup("RMI_SERVER");
+        ChatServer chatServer = (ChatServer) registry.lookup("RMI_SERVER");
 
-        registerClient(chatServer, new Client(new Player("firstPlayer")));
-        registerClient(chatServer, new Client(new Player("secondPlayer")));
-
-        System.out.println("RMI Client connected to RMI Server");
+        Client client1 =initializer.initializePlayer(chatServer);
+        Client client2 =initializer.initializePlayer(chatServer);
+        Client initiator = initializer.initializeInitiator(client1, client2);
+        chatting.run(chatServer, initiator, initiator.equals(client1) ? client2 : client1);
     }
 
-    private static void registerClient(ChatServer chatServer, Client client) throws RemoteException {
-        clientStub = (ChatClient) UnicastRemoteObject.exportObject(client, 0);
-        ChatClient addedClient = chatServer.register(clientStub);
-        client.addPlayer(addedClient);
-    }
 }
