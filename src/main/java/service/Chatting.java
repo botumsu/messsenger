@@ -1,19 +1,19 @@
 package service;
 
-import rmi.ChatClient;
+import component.EventChannel;
 import rmi.ChatServer;
 import rmi.Client;
 import util.Event;
+import util.EventProvider;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
-
-import static util.EventProvider.eventChannel;
 
 public class Chatting {
     public void run(ChatServer chatServer, Client initiator, Client otherClient) throws RemoteException {
         Client nextPlayer = initiator;
         System.out.println("Chat is Starting...");
+        EventChannel eventChannel = EventProvider.getInstance();
         while (!eventChannel.getPublishers().isEmpty()) {
             System.out.println("Enter Message for " + nextPlayer.getName());
             Scanner scanner = new Scanner(System.in);

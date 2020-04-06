@@ -1,15 +1,15 @@
 package rmi;
 
+import component.EventChannel;
 import component.Publisher;
 import component.Subscriber;
 import model.Player;
+import util.EventProvider;
 
 import java.rmi.RemoteException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import static util.EventProvider.eventChannel;
 
 public class Client implements ChatClient {
 
@@ -22,6 +22,7 @@ public class Client implements ChatClient {
 
     @Override
     public void notifyLogin(Player player) throws RemoteException {
+        EventChannel eventChannel = EventProvider.getInstance();
         namePlayers.put(player.getName(), player);
         eventChannel.getSubscribers().add(new Subscriber(player, eventChannel));
         eventChannel.getPublishers().add(new Publisher(player, eventChannel));
@@ -29,6 +30,7 @@ public class Client implements ChatClient {
 
     @Override
     public void notifyLogout(Player player) throws RemoteException {
+        EventChannel eventChannel = EventProvider.getInstance();
         Optional<Subscriber> optionalSubscriber = eventChannel.getSubscribers().stream()
                 .filter(subscriber -> subscriber.getEventUpdater().equals(player))
                 .findFirst();

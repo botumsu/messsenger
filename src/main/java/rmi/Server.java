@@ -15,15 +15,11 @@ public class Server implements ChatServer {
     public ChatClient register(ChatClient chatClient) throws RemoteException {
         if (!userNameClient.containsKey(chatClient.getName())) {
             userNameClient.put(chatClient.getName(), chatClient);
-
-            userNameClient.forEach((name, client) -> {
-                try {
-                    client.notifyLogin(new Player(name));
-                } catch (RemoteException e) {
-                    System.out.println(e);
-                    System.out.println("Couldn't register the client");
-                }
-            });
+            try {
+                chatClient.notifyLogin(new Player(chatClient.getName()));
+            } catch (RemoteException e) {
+                System.out.println("Couldn't register the client");
+            }
         }
         return userNameClient.get(chatClient.getName());
     }

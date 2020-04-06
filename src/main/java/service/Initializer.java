@@ -17,12 +17,11 @@ public class Initializer {
         String playerName = scanner.nextLine();
         Player player = new Player(playerName);
         Client client = new Client(player);
-        client.notifyLogin(player);
         registerClient(chatServer, client);
         return client;
     }
 
-    private void registerClient(ChatServer chatServer, Client client) throws RemoteException {
+    public void registerClient(ChatServer chatServer, Client client) throws RemoteException {
         ChatClient clientStub = (ChatClient) UnicastRemoteObject.exportObject(client, 0);
         ChatClient addedClient = chatServer.register(clientStub);
         client.addPlayer(addedClient);
