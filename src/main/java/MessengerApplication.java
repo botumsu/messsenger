@@ -2,6 +2,7 @@ import model.Player;
 import service.Chatting;
 import service.Initializer;
 import service.Registering;
+import util.Event;
 
 public class MessengerApplication {
 
@@ -11,13 +12,14 @@ public class MessengerApplication {
 
     public static void main(String[] args) {
 
-        Player player1 = initializer.initializePlayer();
-        Player player2 = initializer.initializePlayer();
+        Player player1 = initializer.initializePlayer(args[0]);
+        Player player2 = initializer.initializePlayer(args[1]);
         registering.registerPlayer(player1);
         registering.registerPlayer(player2);
+        Player initiator = player1.getName().equals(args[2]) ? player1 : player2;
+        Event event = new Event(args[3]);
 
-        Player initiator = initializer.initializeInitiator(player1, player2);
-        chatting.run(initiator, initiator.equals(player1) ? player2 : player1);
+        chatting.run(initiator, event);
     }
 
 }
