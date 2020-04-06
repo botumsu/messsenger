@@ -12,9 +12,7 @@ public class Dispatcher {
     public void dispatch(Event event, Set<Subscriber> toSubscribers) {
         Map<Event, Set<Subscriber>> eventSubscribers = eventToSubscribers.get();
         eventSubscribers.put(event, toSubscribers);
-        eventSubscribers.forEach((events, subscribers) -> {
-            subscribers.forEach(subscriber -> subscriber.receiveEvent(events));
-        });
+        eventSubscribers.forEach((events, subscribers) -> subscribers.forEach(subscriber -> subscriber.receiveEvent(events)));
 
         eventSubscribers.remove(event);
     }

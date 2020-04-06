@@ -9,7 +9,6 @@ import java.util.concurrent.Executor;
 
 public class Subscriber {
     private EventUpdater eventUpdater;
-    private Executor executor;
     private EventChannel eventChannel;
 
     ThreadLocal<List<Event>> receivedEvents = ThreadLocal.withInitial(ArrayList::new);
@@ -17,7 +16,6 @@ public class Subscriber {
     public Subscriber(EventUpdater eventUpdater, EventChannel eventChannel) {
         this.eventUpdater = eventUpdater;
         this.eventChannel = eventChannel;
-        this.executor = eventChannel.getExecutorService();
     }
 
     public void register() {
@@ -28,15 +26,11 @@ public class Subscriber {
         eventChannel.removeSubscriber(this);
     }
 
-    public List<Event> getEvents() {
-        return receivedEvents.get();
-    }
-
     public void receiveEvent(Event event) {
         List<Event> events = receivedEvents.get();
         events.add(event);
         synchronized (this) {
-            executor.execute(() -> {
+            eventChannel.getExecutorService().execute(() -> {
                 try {
                     events.forEach(eachEvent -> eventUpdater.onEvent(eachEvent));
                     events.remove(event);
@@ -47,15 +41,7 @@ public class Subscriber {
         }
     }
 
-    public Executor getExecutor() {
-        return executor;
-    }
-
     public EventUpdater getEventUpdater() {
         return eventUpdater;
-    }
-
-    public ThreadLocal<List<Event>> getReceivedEvents() {
-        return receivedEvents;
     }
 }

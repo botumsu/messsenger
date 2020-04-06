@@ -51,4 +51,5 @@ public class EventChannel extends Dispatcher {
     public CopyOnWriteArraySet<Publisher> getPublishers() {
         return publishers;
     }
+
 }

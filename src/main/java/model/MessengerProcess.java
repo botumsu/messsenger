@@ -37,7 +37,7 @@ public class MessengerProcess implements Messenger {
             Publisher currentPublisher = optionalPublisher.get();
             currentPublisher.publish(event);
             if (sendMessageCounter.get() >= 10) {
-                eventChannel.getPublishers().remove(currentPublisher);
+                currentPublisher.unregister();
             }
         }
     }
@@ -49,7 +49,7 @@ public class MessengerProcess implements Messenger {
                     .filter(subscriber -> subscriber.getEventUpdater().equals(receiver))
                     .findFirst();
             if (optionalSubscriber.isPresent()) {
-                eventChannel.getSubscribers().remove(optionalSubscriber.get());
+                optionalSubscriber.get().unregister();
             }
         }
     }
