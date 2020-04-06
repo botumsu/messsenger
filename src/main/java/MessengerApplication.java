@@ -1,30 +1,23 @@
-import component.Publisher;
-import component.Subscriber;
 import model.Player;
-import util.Event;
-
-import static util.EventProvider.eventChannel;
+import service.Chatting;
+import service.Initializer;
+import service.Registering;
 
 public class MessengerApplication {
 
+    private static Initializer initializer = new Initializer();
+    private static Registering registering = new Registering();
+    private static Chatting chatting = new Chatting();
+
     public static void main(String[] args) {
-        Player player = new Player("mahmut");
-        Player player2 = new Player("mehmet");
 
-        Subscriber subsMahmut = new Subscriber(player, eventChannel);
-        Subscriber subsMehmet = new Subscriber(player2, eventChannel);
-        subsMahmut.register();
-        subsMehmet.register();
+        Player player1 = initializer.initializePlayer();
+        Player player2 = initializer.initializePlayer();
+        registering.registerPlayer(player1);
+        registering.registerPlayer(player2);
 
-        Publisher pubMahmut = new Publisher(player, eventChannel);
-        Publisher pubMehmet = new Publisher(player, eventChannel);
-        pubMahmut.register();
-        pubMehmet.register();
-
-        Event event = new Event("selam");
-
-        player.sendEvent(event);
-
+        Player initiator = initializer.initializeInitiator(player1, player2);
+        chatting.run(initiator, initiator.equals(player1) ? player2 : player1);
     }
 
 }

@@ -11,9 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static util.EventProvider.eventChannel;
 
-public class MessengerProcess implements Messenger, Serializable {
-
-    private static final long serialVersionUID = 6257373018834408757L;
+public class MessengerProcess implements Messenger {
 
     private AtomicInteger readMessageCounter = new AtomicInteger(0);
     private AtomicInteger sendMessageCounter = new AtomicInteger(0);
