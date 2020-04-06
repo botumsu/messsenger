@@ -15,6 +15,7 @@ public class Dispatcher {
         eventSubscribers.forEach((events, subscribers) -> {
             subscribers.forEach(subscriber -> subscriber.receiveEvent(events));
         });
+        eventSubscribers.remove(event);
     }
 
 }

@@ -33,14 +33,14 @@ public class Subscriber {
     }
 
     public void receiveEvent(Event event) {
-        receivedEvents.get().add(event);
+        List<Event> events = receivedEvents.get();
+        events.add(event);
         synchronized (this) {
             executor.execute(() -> {
                 try {
-                    receivedEvents.get().add(event);
-                    receivedEvents.get().forEach(eachEvent -> eventUpdater.onEvent(eachEvent));
+                    events.forEach(eachEvent -> eventUpdater.onEvent(eachEvent));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("Receiving event couldn't trigger onEvent function");
                 }
             });
         }
