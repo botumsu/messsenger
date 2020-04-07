@@ -8,8 +8,7 @@ import util.Event;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MessengerOperatorTest {
     MessengerOperator testMessengerOperator;
@@ -39,7 +38,7 @@ public class MessengerOperatorTest {
         testMessengerOperator.sendEvent(event, player);
 
         //Assert
-        //verify(publisher, times(1)).publish(event);
+        verify(publisher, times(1)).publish(event);
     }
 
     @Test
