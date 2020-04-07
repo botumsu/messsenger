@@ -68,8 +68,10 @@ public class MessengerOperatorTest {
         PowerMockito.mockStatic(EventProvider.class);
         PowerMockito.when(EventProvider.getInstance()).thenReturn(eventChannel);
         when(eventChannel.getPublishers()).thenReturn(publishers);
+        when(eventChannel.getSubscribers()).thenReturn(subscribers);
         when(subscriber.getEventUpdater()).thenReturn(player);
         when(publisher.getEventUpdater()).thenReturn(player);
+        when(event.getMessage()).thenReturn("test");
 
         //Act
         testMessengerOperator.receiveEvent(event, player);
@@ -81,7 +83,7 @@ public class MessengerOperatorTest {
     @Test
     public void testExceedSendingCount() {
         //Arrange
-        testMessengerOperator = new MessengerOperator(10, 10);
+        testMessengerOperator = new MessengerOperator(9, 9);
         Event event = mock(Event.class);
         Player player = mock(Player.class);
         Publisher publisher = mock(Publisher.class);
@@ -103,7 +105,7 @@ public class MessengerOperatorTest {
     @Test
     public void testExceedReceivingCount() {
         //Arrange
-        testMessengerOperator = new MessengerOperator(10, 10);
+        testMessengerOperator = new MessengerOperator(9, 9);
         Event event = mock(Event.class);
         Player player = mock(Player.class);
         CopyOnWriteArraySet<Publisher> publishers = new CopyOnWriteArraySet<>();
@@ -119,6 +121,7 @@ public class MessengerOperatorTest {
         PowerMockito.mockStatic(EventProvider.class);
         PowerMockito.when(EventProvider.getInstance()).thenReturn(eventChannel);
         when(eventChannel.getPublishers()).thenReturn(publishers);
+        when(event.getMessage()).thenReturn("test");
 
         //Act
         testMessengerOperator.receiveEvent(event, player);

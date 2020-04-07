@@ -28,8 +28,7 @@ public class MessengerOperator implements Messenger {
     @Override
     public void receiveEvent(Event event, Player receiver) {
         readMessageCounter.incrementAndGet();
-        receive(receiver);
-        System.out.println(receiver.getName() + " received message :" + event.getMessage() + ", receiving count: " + readMessageCounter.get());
+        receive(receiver, event);
         sendEvent(event, receiver);
     }
 
@@ -41,20 +40,23 @@ public class MessengerOperator implements Messenger {
         if (optionalPublisher.isPresent()) {
             Publisher currentPublisher = optionalPublisher.get();
             currentPublisher.publish(event);
-            System.out.println(sender.getName() + " sent message :" + event.getMessage() + ", sending count: " + sendMessageCounter.get());
+            System.out.println(sender.getName() + " sent message: " + event.getMessage() + ", sending count: " + sendMessageCounter.get());
             if (sendMessageCounter.get() >= 10) {
                 currentPublisher.unregister();
             }
         }
     }
 
-    private void receive(Player receiver) {
+    private void receive(Player receiver, Event event) {
         EventChannel eventChannel = EventProvider.getInstance();
-        if (readMessageCounter.get() >= 10) {
-            Optional<Subscriber> optionalSubscriber = eventChannel.getSubscribers().stream()
-                    .filter(subscriber -> subscriber.getEventUpdater().equals(receiver))
-                    .findFirst();
-            if (optionalSubscriber.isPresent()) {
+        Optional<Subscriber> optionalSubscriber = eventChannel.getSubscribers().stream()
+                .filter(subscriber -> subscriber.getEventUpdater().equals(receiver))
+                .findFirst();
+        if (optionalSubscriber.isPresent()) {
+            StringBuilder receivedMessage = new StringBuilder(event.getMessage());
+            System.out.println(receiver.getName() + " received message: " + receivedMessage.toString() + ", receiving count: " + readMessageCounter.get());
+            event.setMessage(receivedMessage.append(" ").append(readMessageCounter).toString());
+            if (readMessageCounter.get() >= 10) {
                 optionalSubscriber.get().unregister();
             }
         }
