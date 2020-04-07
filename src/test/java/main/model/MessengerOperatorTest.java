@@ -1,16 +1,18 @@
-package model;
+package main.model;
 
-import component.EventChannel;
-import component.Publisher;
-import component.Subscriber;
+import main.component.EventChannel;
+import main.component.Publisher;
+import main.component.Subscriber;
+import main.model.MessengerOperator;
+import main.model.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import util.Event;
-import util.EventProvider;
+import main.util.Event;
+import main.util.EventProvider;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 

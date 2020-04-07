@@ -1,8 +1,7 @@
-package service;
+package main.service;
 
-import component.Subscriber;
-import model.Player;
-import org.junit.Assert;
+import main.model.Player;
+import main.service.Initializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

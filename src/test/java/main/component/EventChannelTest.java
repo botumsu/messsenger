@@ -1,9 +1,12 @@
-package component;
+package main.component;
 
+import main.component.EventChannel;
+import main.component.Publisher;
+import main.component.Subscriber;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import util.Event;
+import main.util.Event;
 
 import java.util.HashSet;
 import java.util.Set;

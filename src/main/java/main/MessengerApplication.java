@@ -1,8 +1,10 @@
-import model.Player;
-import service.Chatting;
-import service.Initializer;
-import service.Registering;
-import util.Event;
+package main;
+
+import main.model.Player;
+import main.service.Chatting;
+import main.service.Initializer;
+import main.service.Registering;
+import main.util.Event;
 
 public class MessengerApplication {
 
@@ -21,5 +23,4 @@ public class MessengerApplication {
 
         chatting.run(initiator, event);
     }
-
 }

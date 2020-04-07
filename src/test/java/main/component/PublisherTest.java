@@ -1,10 +1,12 @@
-package component;
+package main.component;
 
+import main.component.EventChannel;
+import main.component.Publisher;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import util.Event;
-import util.EventUpdater;
+import main.util.Event;
+import main.util.EventUpdater;
 
 import static org.mockito.Mockito.*;
 

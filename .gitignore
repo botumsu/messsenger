@@ -1,17 +1,6 @@
-/build/
-/bin/
 *.class
+out
 target
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
 
 ### IntelliJ IDEA ###
 .idea

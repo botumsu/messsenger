@@ -1,12 +1,14 @@
-package component;
+package main.component;
 
+import main.component.EventChannel;
+import main.component.Subscriber;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import util.Event;
-import util.EventUpdater;
+import main.util.Event;
+import main.util.EventUpdater;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
