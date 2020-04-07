@@ -3,11 +3,9 @@ package model;
 import util.Event;
 import util.EventUpdater;
 
-import java.io.Serializable;
-
 public class Player implements EventUpdater {
 
-    Messenger messenger = new MessengerProcess();
+    Messenger messenger = new MessengerOperator(0, 0);
 
     private String name;
 

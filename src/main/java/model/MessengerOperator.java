@@ -9,10 +9,15 @@ import util.EventProvider;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MessengerProcess implements Messenger {
+public class MessengerOperator implements Messenger {
 
-    private AtomicInteger readMessageCounter = new AtomicInteger(0);
-    private AtomicInteger sendMessageCounter = new AtomicInteger(0);
+    private AtomicInteger readMessageCounter;
+    private AtomicInteger sendMessageCounter;
+
+    public MessengerOperator(int readMessageCounter, int sendMessageCounter) {
+        this.readMessageCounter = new AtomicInteger(readMessageCounter);
+        this.sendMessageCounter = new AtomicInteger(sendMessageCounter);
+    }
 
     @Override
     public void sendEvent(Event event, Player sender) {
