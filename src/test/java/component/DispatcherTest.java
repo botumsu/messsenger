@@ -1,8 +1,7 @@
 package component;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 import util.Event;
 
 import java.util.HashSet;
@@ -14,14 +13,9 @@ public class DispatcherTest {
 
     private Dispatcher testDispatcher;
 
-    @BeforeClass
+    @Before
     public void setUp() {
         testDispatcher = new Dispatcher();
-    }
-
-    @AfterClass
-    public void tearDown() {
-
     }
 
     @Test

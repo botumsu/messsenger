@@ -1,10 +1,9 @@
 package component;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import util.Event;
 import util.EventUpdater;
 
@@ -19,17 +18,13 @@ public class SubscriberTest {
     EventUpdater eventUpdater;
     ExecutorService executorService;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         eventChannel = mock(EventChannel.class);
         eventUpdater = mock(EventUpdater.class);
         executorService = mock(ExecutorService.class);
         implementAsExecutor(executorService);
         testSubscriber = new Subscriber(eventUpdater, eventChannel);
-    }
-
-    @AfterMethod
-    public void tearDown() {
     }
 
     @Test
@@ -60,7 +55,7 @@ public class SubscriberTest {
         testSubscriber.receiveEvent(event);
 
         //verify()
-        verify(eventUpdater,times(1)).onEvent(event);
+        verify(eventUpdater, times(1)).onEvent(event);
     }
 
     @Test

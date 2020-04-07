@@ -1,17 +1,18 @@
 package model;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 import util.Event;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
 public class PlayerTest {
     Player testPlayer;
     Messenger messenger;
     Player testPlayerSpy;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         testPlayer = new Player("test");
         messenger = mock(MessengerOperator.class);
