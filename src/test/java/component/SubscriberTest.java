@@ -1,5 +1,6 @@
 package component;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +8,8 @@ import org.mockito.Mockito;
 import util.Event;
 import util.EventUpdater;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.concurrent.ExecutorService;
 
 import static org.mockito.Mockito.*;
@@ -17,7 +20,7 @@ public class SubscriberTest {
     EventChannel eventChannel;
     EventUpdater eventUpdater;
     ExecutorService executorService;
-
+    ByteArrayOutputStream systemOut = new ByteArrayOutputStream();
     @Before
     public void setUp() {
         eventChannel = mock(EventChannel.class);
@@ -25,6 +28,12 @@ public class SubscriberTest {
         executorService = mock(ExecutorService.class);
         implementAsExecutor(executorService);
         testSubscriber = new Subscriber(eventUpdater, eventChannel);
+        System.setOut(new PrintStream(systemOut));
+    }
+
+    @After
+    public void tearDown() {
+        System.setOut(System.out);
     }
 
     @Test
@@ -69,6 +78,20 @@ public class SubscriberTest {
 
         //Assert
         Assert.assertEquals(actual, eventUpdater);
+    }
+
+    @Test
+    public void testReceiveEventThrowException() {
+        //Arrange
+        Event event = mock(Event.class);
+        when(eventChannel.getExecutorService()).thenReturn(executorService);
+        doThrow(Exception.class).when(eventUpdater).onEvent(event);
+
+        //Act
+        testSubscriber.receiveEvent(event);
+
+        //Assert
+        Assert.assertEquals("Receiving event couldn't trigger onEvent function", systemOut.toString());
     }
 
     protected void implementAsExecutor(ExecutorService executor) {

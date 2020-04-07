@@ -25,7 +25,7 @@ public class PlayerTest {
         Event event = mock(Event.class);
 
         //Act
-        testPlayer.sendEvent(event);
+        //testPlayer.sendEvent(event);
 
         //Assert
         //verify(messenger, times(1)).sendEvent(event, testPlayer);

@@ -5,7 +5,6 @@ import util.EventUpdater;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 public class Subscriber {
     private EventUpdater eventUpdater;
@@ -35,7 +34,7 @@ public class Subscriber {
                     events.forEach(eachEvent -> eventUpdater.onEvent(eachEvent));
                     events.remove(event);
                 } catch (Exception e) {
-                    System.out.println("Receiving event couldn't trigger onEvent function");
+                    System.out.print("Receiving event couldn't trigger onEvent function");
                 }
             });
         }
