@@ -32,9 +32,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>
-                                        main.MessengerApplication
-                                    </mainClass>
+                                    <mainClass>main.MessengerApplication</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
